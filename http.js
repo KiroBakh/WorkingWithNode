@@ -1,25 +1,11 @@
 const http = require("http");
-
+const fs = require("fs");
 let server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-  res.end(
-    `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Server Node</title>
-  </head>
-  <body style="background-color: black">
-    <h1
-      style="text-align: center; color: green; text-shadow: 1px 2px 10px lime; margin-top: 30px"
-    >Hello Node!))</h1>
-  </body>
-</html>
-
-  `
-  );
+  if (req.url === "/") fs.createReadStream("./templates/index.html").pipe(res);
+  else if (req.url === "/about")
+    fs.createReadStream("./templates/about.html").pipe(res);
+  else  fs.createReadStream("./templates/error.html").pipe(res);
 });
 
 const PORT = 3000;
